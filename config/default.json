@@ -1,0 +1,10 @@
+{
+  "keywords": ["biojs", "bionode"],
+  "registry": {
+    "uri": "https://registry.npmjs.org/"
+  },
+  "server": {
+    "host": "localhost",
+    "port": 3000
+  }
+}
