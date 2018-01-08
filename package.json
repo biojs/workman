@@ -1,0 +1,26 @@
+{
+  "name": "biojs-workman",
+  "version": "1.0.0",
+  "description": "A module extracting all biojs modules from npm",
+  "main": "index.js",
+  "scripts": {
+    "startdev": "nodemon -e js,json --exec './node_modules/.bin/eslint . && node index.js'",
+    "testdev": "nodemon -e js,json --exec './node_modules/.bin/eslint . && npm run test'",
+    "test": "tape $(find . -name '*.spec.js' -not -path './node_modules/*') | tap-spec"
+  },
+  "author": "DennisSchwartz",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "eslint": "^4.15.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-plugin-import": "^2.8.0",
+    "nodemon": "^1.14.8",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.8.0"
+  },
+  "dependencies": {
+    "hapi": "^17.2.0",
+    "npm-keyword": "^5.0.0"
+  }
+}
