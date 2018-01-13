@@ -1,3 +1,5 @@
+import {MongoClient} from 'mongodb';
+
 const {Server} = require('hapi');
 const {search} = require('./plugins/search');
 const config = require('config');
@@ -10,6 +12,20 @@ async function init({_config = config}) {
   const server = new Server({
     port: _config.get('server.port'),
     host: _config.get('server.host'),
+  });
+
+  const mongoServer = new Server(
+    _config.get('db.host'),
+    _config.get('db.port'),
+  );
+  const db = new MongoClient(mongoServer);
+
+  server.route({
+    method: 'GET',
+    path: '/all',
+    handler: getDb({
+      db,
+    }),
   });
 
   server.route({
