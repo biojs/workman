@@ -1,4 +1,5 @@
-const {promisify} = require('bluebird');
+const jsonStream = require('JSONstream');
+const through2 = require('through2');
 
 /**
  * Retrieve all packages from database
@@ -6,15 +7,19 @@ const {promisify} = require('bluebird');
  * @return {Stream} A stream of packages from the database
  */
 function getAll(payload) {
-  if (!payload.db) {
-    throw new Error('No database instance received!');
+  const {connection} = payload;
+  if (!connection) {
+    throw new Error('No database connection received!');
   }
-  const mongo = promisify(payload.db);
-
+  const db = connection.db('registry');
   return async () => {
-    const connection = await mongo.open();
-    const db = connection.db('registry');
-    return db.collection('packages').find({}).stream();
+    const res = db.collection('packages')
+      .find({})
+      .stream()
+      .pipe(jsonStream.stringify())
+      // This is needed to provide the Stream2 interface hapi expects
+      .pipe(through2());
+    return res;
   };
 }
 

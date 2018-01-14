@@ -1,7 +1,8 @@
-import {MongoClient} from 'mongodb';
-
+const Promise = require('bluebird');
+const {MongoClient} = Promise.promisifyAll(require('mongodb'));
 const {Server} = require('hapi');
-const {search} = require('./plugins/search');
+const {updateDb} = require('./plugins/search');
+const {getAll} = require('./plugins/database');
 const config = require('config');
 
 
@@ -11,29 +12,32 @@ const config = require('config');
 async function init({_config = config}) {
   const server = new Server({
     port: _config.get('server.port'),
-    host: _config.get('server.host'),
+    routes: {
+      cors: true,
+    },
   });
+  console.log('Done.');
 
-  const mongoServer = new Server(
-    _config.get('db.host'),
-    _config.get('db.port'),
-  );
-  const db = new MongoClient(mongoServer);
+  const dbUri = _config.get('db.uri');
+  console.log(`Connecting to mongodb on ${dbUri}...`);
+  const connection = await MongoClient.connect(dbUri);
+  console.log('Done.');
 
   server.route({
     method: 'GET',
     path: '/all',
-    handler: getDb({
-      db,
+    handler: getAll({
+      connection,
     }),
   });
 
   server.route({
     method: 'GET',
-    path: '/search',
-    handler: search({
+    path: '/update',
+    handler: updateDb({
       keywords: _config.get('keywords'),
       registry: _config.get('registry.uri'),
+      connection,
     }),
   });
 

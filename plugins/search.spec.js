@@ -1,15 +1,19 @@
-const {search, get} = require('./search');
+const {updateDb, get} = require('./search');
 const {test} = require('tape');
 const {stub} = require('sinon');
 
 test('search function', async (t) => {
   const mockFetch = stub().returns(
-    {
-      total: 60,
-      objects: new Array(60).fill({}),
-    }
+    Promise.resolve({
+      json: () => Promise.resolve(
+        JSON.stringify({
+          total: 60,
+          objects: new Array(60).fill({}),
+        })
+      ),
+    })
   );
-  const packages = await search({
+  const packages = await updateDb({
     registry: 'http://example.com',
     keywords: [],
     _fetch: mockFetch}
