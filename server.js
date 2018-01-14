@@ -3,6 +3,7 @@ const {MongoClient} = Promise.promisifyAll(require('mongodb'));
 const {Server} = require('hapi');
 const {updateDb} = require('./plugins/search');
 const {getAll} = require('./plugins/database');
+const {update} = require('./plugins/update');
 const config = require('config');
 
 
@@ -39,6 +40,13 @@ async function init({_config = config}) {
       registry: _config.get('registry.uri'),
       connection,
     }),
+  });
+
+  update({
+    keywords: _config.get('keywords'),
+    registry: _config.get('registry.uri'),
+    interval: _config.get('update.interval'),
+    connection,
   });
 
   return server;

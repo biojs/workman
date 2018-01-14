@@ -9,5 +9,8 @@
   },
   "db": {
     "uri": "mongodb://mongo:27017"
+  },
+  "update": {
+    "interval": 3600000
   }
 }
