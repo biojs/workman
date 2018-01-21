@@ -1,4 +1,4 @@
-const {updateDb} = require('./search');
+const {updateDb} = require('./database');
 
 /**
  * Update db in regular intervals

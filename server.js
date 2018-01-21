@@ -1,8 +1,7 @@
 const Promise = require('bluebird');
 const {MongoClient} = Promise.promisifyAll(require('mongodb'));
 const {Server} = require('hapi');
-const {updateDb} = require('./plugins/search');
-const {getAll} = require('./plugins/database');
+const {getAll, updateDb} = require('./plugins/database');
 const {update} = require('./plugins/update');
 const config = require('config');
 
