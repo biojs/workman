@@ -7,7 +7,8 @@
     "start": "node index.js",
     "startdev": "nodemon -e js,json --exec './node_modules/.bin/eslint . && node index.js'",
     "test": "tape $(find . -name '*.spec.js' -not -path './node_modules/*') | tap-spec",
-    "testdev": "nodemon -e js,json --exec './node_modules/.bin/eslint . && npm run test'"
+    "testdev": "nodemon -e js,json --exec './node_modules/.bin/eslint . && npm run test'",
+    "lint": "./node_modules/.bin/eslint ."
   },
   "author": "DennisSchwartz",
   "license": "GPL-3.0",
