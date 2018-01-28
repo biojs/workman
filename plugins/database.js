@@ -36,7 +36,7 @@ function updateDb(config) {
     registry,
     connection,
     token,
-    GithubAPI,
+    githubAPI,
     _fetch = fetch} = config;
   if (!connection) {
     throw new Error('No database connection received!');
@@ -48,7 +48,7 @@ function updateDb(config) {
     const results = searchResults.map((p) => p.package);
     const workflow = R.pipeP(
       getPackageDetails({registry, _fetch}),
-      getGithubInfo({token, GithubAPI}),
+      getGithubInfo({token, githubAPI}),
       upsert({db}),
     );
     const packages = await all(results.map(workflow)).catch(console.error);
