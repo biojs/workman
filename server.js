@@ -46,6 +46,7 @@ async function init({_config = config}) {
     keywords: _config.get('keywords'),
     registry: _config.get('registry.uri'),
     interval: _config.get('update.interval'),
+    token: _config.get('github.token'),
     connection,
   });
 
