@@ -1,9 +1,30 @@
-const {handler} = require('./github');
+const {extractOwner} = require('./github');
+const {test} = require('tape');
 
-handler({
-  packageInfo: {
-    owner: 'IbrahimTanyalcin',
-    repo: 'lexicon-rainbow',
+const urls = [
+  'git+https://github.com/afrivera/cytoscape.js.git',
+  'https://github.com/jmvillaveces/biojs-vis-psicquic.git',
+  'git://github.com/mandarsd/pdb-redo.git',
+];
+
+const results = {
+  'git+https://github.com/afrivera/cytoscape.js.git': {
+    owner: 'afrivera',
+    repo: 'cytoscape.js',
   },
-  token: '057d826c335490c64587a971b62f4e30f46b2b16',
+  'https://github.com/jmvillaveces/biojs-vis-psicquic.git': {
+    owner: 'jmvillaveces',
+    repo: 'biojs-vis-psicquic',
+  },
+  'git://github.com/mandarsd/pdb-redo.git': {
+    owner: 'mandarsd',
+    repo: 'pdb-redo',
+  },
+};
+
+test('Extraction of info from github url', (t) => {
+  t.plan(urls.length);
+  urls.map((url) => {
+    t.deepEqual(extractOwner(url), results[url]);
+  });
 });

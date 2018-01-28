@@ -37,6 +37,7 @@ async function init({_config = config}) {
     handler: updateDb({
       keywords: _config.get('keywords'),
       registry: _config.get('registry.uri'),
+      token: _config.get('github.token'),
       connection,
     }),
   });

@@ -1,0 +1,19 @@
+{
+  "keywords": "SEARCH_KEYWORDS",
+  "registry": {
+    "uri": "REGISTRY_URI"
+  },
+  "server": {
+    "host": "SERVER_HOST",
+    "port": "SERVER_PORT"
+  },
+  "db": {
+    "uri": "DB_URI"
+  },
+  "update": {
+    "interval": "UPDATE_INTERVAL"
+  },
+  "github": {
+    "token": "GITHUB_TOKEN"
+  }
+}

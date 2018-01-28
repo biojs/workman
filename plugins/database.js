@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const R = require('ramda');
 const {all} = require('bluebird');
 const {get, getPackageDetails} = require('./npm');
+const {getGithubInfo} = require('./github');
 
 /**
  * Function to upsert packages into mongoDB
@@ -30,7 +31,13 @@ function upsert(config) {
  * @return {function} search function with settings applied
 */
 function updateDb(config) {
-  const {keywords, registry, connection, _fetch = fetch} = config;
+  const {
+    keywords,
+    registry,
+    connection,
+    token,
+    GithubAPI,
+    _fetch = fetch} = config;
   if (!connection) {
     throw new Error('No database connection received!');
   }
@@ -41,6 +48,7 @@ function updateDb(config) {
     const results = searchResults.map((p) => p.package);
     const workflow = R.pipeP(
       getPackageDetails({registry, _fetch}),
+      getGithubInfo({token, GithubAPI}),
       upsert({db}),
     );
     const packages = await all(results.map(workflow)).catch(console.error);
