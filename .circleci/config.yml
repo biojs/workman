@@ -35,6 +35,10 @@ jobs:
           name: lint
           command: |
             npm run lint
+      - run:
+          name: test
+          command: |
+            npm run test
 
       - persist_to_workspace:
           root: .
