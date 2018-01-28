@@ -1,4 +1,4 @@
-const _GithubAPI = require('github');
+const octokit = require('@octokit/rest');
 const {promisifyAll} = require('bluebird');
 
 /**
@@ -19,8 +19,8 @@ function extractOwner(url) {
  * @return {Object} api
  */
 function getGithubInfo(config) {
-  const {token, GithubAPI = _GithubAPI} = config;
-  const gh = promisifyAll(new GithubAPI());
+  const {token, githubAPI = octokit} = config;
+  const gh = promisifyAll(githubAPI());
   return async (npmPackage) => {
     try {
       await gh.authenticate({type: 'oauth', token: token});
