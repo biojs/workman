@@ -21,7 +21,7 @@ test('search function', async (t) => {
     }),
   };
 
-  const GithubAPI = stub().returns({
+  const githubAPI = stub().returns({
     authenticate: stub(),
   });
 
@@ -29,7 +29,7 @@ test('search function', async (t) => {
     registry: 'http://example.com',
     keywords: [],
     connection,
-    GithubAPI,
+    githubAPI,
     _fetch: mockFetch,
   }
   )();
