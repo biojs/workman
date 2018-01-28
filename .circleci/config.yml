@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  build:
+  test:
     docker:
       # specify the version you desire here
       - image: circleci/node:8
@@ -35,8 +35,21 @@ jobs:
           name: lint
           command: |
             npm run lint
-      - run:
-          name: test
-          command: |
-            npm test
 
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+            - node_modules
+
+workflows:
+  version: 2
+  test_and_release:
+    jobs:
+      - test
+      - setup_release:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
